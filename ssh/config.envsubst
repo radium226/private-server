@@ -1,0 +1,2 @@
+Host ${PRIVATE_SERVER_HOSTNAME} ${PRIVATE_SERVER_HOSTNAME}
+	IdentityFile ./ssh/id_rsa

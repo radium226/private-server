@@ -4,9 +4,14 @@ env:
   - secure: eq80fQ9B3XuFCci7whQNnvjtkn0lzHWg4NtvPt0wAi36jNdk7zI8a9DK8/uBISQuzF20EA6JshaZmUe7mtrCZiudrYM3Dx9WveYiDe0U7OChQg/+xrGDaDn7PMDl4I5/osCryfv51GnoPV2KpxsfBfnq7r6bT6JeNrdhWBCOxgfUWUq69axI4iFTc2sCF3qD2VaPX//o36lWCIyqeHCUO8y5388qzXtw2bqdSTowV8ELN9NTFQ2DB2ORcKqhbmqKuRBd8vflQKT9zgyWq2mE7ZUgjWD9iIR/Fe1zNt2N/jBEuTo10SGjFWTYdMj1dZHg94k5oiRWHP8/xAXBPko8gjpV1H3Yj9Vnf9CnD78z62LCMKiYPYDzmU2+E0GZuhedrXCu+Qpv/Tb33ooJUveOLWan1fi07dLQo/AQvxhAyvdkcmAfdcmby1FQQuOqDaJBL5XWjcg37r16zCpQLmSv+IaTtIwSJ3Ol/SAYk4vEftYqxS2CGz2YVXVXLDd3YLw5q1ODDM2TtLOp77P0kDydMckQrqSMDoh/ucf4YKGsuOt+AQrhY3RVldKtpsPPA2KJqUq2CDcatMGoTvaBvj22nIb7sI92PLFkj8a9KGmVNRZNoItGfXyKX+k2oVhafoM//ITwjKHMylOcWyS5dxcET0AULImVni3aaRNm1j7WHJE=
 install:
 - true
+before_script:
+- apt-get -y install "ansible" "gettext"
 script:
-- true
+- ./private-server decrypt-files
+- ./private-server render-template-files
+- ./private-server ansible -m setup
+
 after_script:
 - "./.travis.d/make-bootstrap-files.sh"
-notifications: 
+notifications:
 email: false

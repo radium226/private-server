@@ -6,6 +6,10 @@
 export PRIVATE_SERVER_HOSTNAME="ns3266098.ip-5-39-79.eu"
 export PRIVATE_SERVER_IP="5.39.79.100"
 
+export ANSIBE_INVENTORY_FILE="./inventory.ini"
+export ANSIBLE_VAULT_PASSWORD_FILE="./.vault-password"
+export ANSIBLE_CONFIG_FILE="./ansible.cfg"
+
 fix_ssh_known_hosts()
 {
   declare hostname_or_ip=
@@ -49,6 +53,17 @@ decrypt_file()
   openssl aes-256-cbc -k "$( encryption_password )" -in "${file_path}.encrypted" -out "${file_path}" -d
 }
 
+render_template_file()
+{
+  declare file_path="${1}"
+  SSH_PUBLIC_KEY="$( cat "./ssh/id_rsa.pub" )" envsubst <"${file_path}.envsubst" >"${file_path}"
+}
+
+run_ansible()
+{
+  ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible -i "${ANSIBE_INVENTORY_FILE}" --vault-password-file="${VAULT_PASSWORD_FILE}" "${@}"
+}
+
 main()
 {
   declare action="${1}"
@@ -57,27 +72,48 @@ main()
 
     "ssh")
       fix_ssh_known_hosts
-      ssh -i "./bootstrap/ssh/id_rsa" "root@${PRIVATE_SERVER_HOSTNAME}" "${@}"
+      ssh -i "./ssh/id_rsa" "root@${PRIVATE_SERVER_HOSTNAME}" "${@}"
       ;;
 
     "generate-ssh-keys")
-      test -f "./bootstrap/ssh/id_rsa" && rm "./bootstrap/ssh/id_rsa"
-      test -f "./bootstrap/ssh/id_rsa.pub" && rm "./bootstrap/ssh/id_rsa.pub"
-      ssh-keygen -q -C "private-server-bootstrap" -N "" -f "./bootstrap/ssh/id_rsa"
+      test -f "./ssh/id_rsa" && rm "./ssh/id_rsa"
+      test -f "./ssh/id_rsa.pub" && rm "./ssh/id_rsa.pub"
+      ssh-keygen -q -C "private-server" -N "" -f "./ssh/id_rsa"
       ;;
 
-    "encrypt-file"|"encrypt-files")
+    "encrypt-file" | "encrypt-files")
       declare file_path=
       for file_path in "${@}"; do
         encrypt_file "${file_path}"
       done
       ;;
 
-    "decrypt-file"|"decrypt-files")
+    "render-template-file")
+      declare file_path="${1}"
+      render_template_file "${file_path}"
+      ;;
+
+    "render-template-files")
       declare file_path=
-      for file_path in "${@}"; do
+      for file_path in $( find "." -name "*.envsubst" | sed 's,\.envsubst,,g'); do
+        render_template_file "${file_path}"
+      done
+      ;;
+
+    "decrypt-file")
+      declare file_path="${1}"
+      decrypt_file "${file_path}"
+      ;;
+
+    "decrypt-files")
+      declare file_path=
+      for file_path in $( find "." -name "*.encrypted" | sed 's,\.encrypted,,g'); do
         decrypt_file "${file_path}"
       done
+      ;;
+
+    "ansible")
+      run_ansible "${@}"
       ;;
 
   esac

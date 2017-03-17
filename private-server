@@ -119,6 +119,6 @@ main()
   esac
 }
 
-echo "${PRIVATE_SERVER_ENCRYPTION_PASSWORD}"
+echo "-->${PRIVATE_SERVER_ENCRYPTION_PASSWORD}"
 
 main "${@}"

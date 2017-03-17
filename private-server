@@ -119,6 +119,4 @@ main()
   esac
 }
 
-echo "-->${PRIVATE_SERVER_ENCRYPTION_PASSWORD}"
-env
 main "${@}"

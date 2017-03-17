@@ -1,0 +1,7 @@
+- name: ansible
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  groups: users
+  ssh-import-id: None
+  lock_passwd: true
+  ssh-authorized-keys:
+  - ${SSH_PUBLIC_KEY}

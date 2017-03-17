@@ -3,7 +3,7 @@
 declare temp_folder_path="$( mktemp -d )"
 
 # Copy post-install.sh
-cp "./bootstrap/kimsufi-post-install.sh" "${temp_folder_path}"
+cp "./bootstrap/post-install.sh" "${temp_folder_path}"
 
 # Create cloud.cfg.d.tar.gz
 cd "./bootstrap/cloud.cfg.d"

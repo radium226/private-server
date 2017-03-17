@@ -5,13 +5,12 @@ env:
 install:
 - true
 before_script:
-- apt-get -y install "ansible" "gettext"
+- apt-get -y install 'ansible'
 script:
 - ./private-server decrypt-files
 - ./private-server render-template-files
+- ./private-server push-files-to-github-pages
 - ./private-server ansible -m setup
 
-after_script:
-- "./.travis.d/make-bootstrap-files.sh"
 notifications:
 email: false

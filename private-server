@@ -38,8 +38,6 @@ fix_ssh_known_hosts()
 
 encryption_password()
 {
-  touch "./.encryption-password"
-  echo ${PRIVATE_SERVER_ENCRYPTION_PASSWORD}
   echo "${PRIVATE_SERVER_ENCRYPTION_PASSWORD:-$( cat "./.encryption-password" )}"
 }
 
@@ -120,5 +118,7 @@ main()
 
   esac
 }
+
+echo "${PRIVATE_SERVER_ENCRYPTION_PASSWORD}"
 
 main "${@}"

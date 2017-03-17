@@ -22,20 +22,64 @@ fix_ssh_known_hosts()
   done
 }
 
+# generate-ssh-keys --bootstrap
+# push-files-to-github-pages
+# reboot
+# reinstall
+# ansible-playbook
+# ansible-adhoc
+# ssh --bootstrap
+# provision
+#
+
+encryption_password()
+{
+  echo "${PRIVATE_SERVER_ENCRYPTION_PASSWORD:-$( cat "./.encryption-password" )}"
+}
+
+encrypt_file()
+{
+  declare file_path="${1}"
+  openssl aes-256-cbc -k "$( encryption_password )" -in "${file_path}" -out "${file_path}.encrypted"
+}
+
+decrypt_file()
+{
+  declare file_path="${1}"
+  openssl aes-256-cbc -k "$( encryption_password )" -in "${file_path}.encrypted" -out "${file_path}" -d
+}
+
 main()
 {
   declare action="${1}"
   shift
   case "${action}" in
+
     "ssh")
       fix_ssh_known_hosts
       ssh -i "./bootstrap/ssh/id_rsa" "root@${PRIVATE_SERVER_HOSTNAME}" "${@}"
       ;;
+
     "generate-ssh-keys")
       test -f "./bootstrap/ssh/id_rsa" && rm "./bootstrap/ssh/id_rsa"
       test -f "./bootstrap/ssh/id_rsa.pub" && rm "./bootstrap/ssh/id_rsa.pub"
       ssh-keygen -q -C "private-server-bootstrap" -N "" -f "./bootstrap/ssh/id_rsa"
       ;;
+
+    "encrypt-file"|"encrypt-files")
+      declare file_path=
+      for file_path in "${@}"; do
+        encrypt_file "${file_path}"
+      done
+      ;;
+
+    "decrypt-file"|"decrypt-files")
+      declare file_path=
+      for file_path in "${@}"; do
+        decrypt_file "${file_path}"
+      done
+      ;;
+
   esac
 }
 

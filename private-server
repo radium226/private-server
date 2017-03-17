@@ -61,7 +61,7 @@ render_template_file()
 
 run_ansible()
 {
-  ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible -i "${ANSIBE_INVENTORY_FILE}" --vault-password-file="${VAULT_PASSWORD_FILE}" "${@}"
+  ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible -i "${ANSIBE_INVENTORY_FILE}" --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
 }
 
 main()

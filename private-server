@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# https://google.github.io/styleguide/shell.xml
+
+
+export PRIVATE_SERVER_HOSTNAME="ns3266098.ip-5-39-79.eu"
+export PRIVATE_SERVER_IP="5.39.79.100"
+
+fix_ssh_known_hosts()
+{
+  declare hostname_or_ip=
+  for hostname_or_ip in "${PRIVATE_SERVER_HOSTNAME}" "${PRIVATE_SERVER_IP}"; do
+    if grep -q "${hostname_or_ip}" "${HOME}/.ssh/known_hosts"; then
+      ssh-keygen -R "${hostname_or_ip}"
+    fi
+  done
+
+  for hostname_or_ip in "${PRIVATE_SERVER_HOSTNAME}" "${PRIVATE_SERVER_IP}"; do
+    if ! grep -q "${hostname_or_ip}" "${HOME}/.ssh/known_hosts"; then
+      ssh-keyscan -t "rsa","dsa" "${hostname_or_ip}" >>"${HOME}/.ssh/known_hosts"
+    fi
+  done
+}
+
+main()
+{
+  declare action="${1}"
+  shift
+  case "${action}" in
+    "ssh")
+      fix_ssh_known_hosts
+      ssh -i "./bootstrap/ssh/id_rsa" "root@${PRIVATE_SERVER_HOSTNAME}" "${@}"
+      ;;
+    "generate-ssh-keys")
+      test -f "./bootstrap/ssh/id_rsa" && rm "./bootstrap/ssh/id_rsa"
+      test -f "./bootstrap/ssh/id_rsa.pub" && rm "./bootstrap/ssh/id_rsa.pub"
+      ssh-keygen -q -C "private-server-bootstrap" -N "" -f "./bootstrap/ssh/id_rsa"
+      ;;
+  esac
+}
+
+main "${@}"

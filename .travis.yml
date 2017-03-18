@@ -9,7 +9,7 @@ before_script:
 - "./private-server render-template-files"
 - "./private-server push-files-to-github-pages"
 script:
-- "./private-server ansible -m setup"
+- "./private-server ansible all -m setup"
 notifications:
 email: false
 env:

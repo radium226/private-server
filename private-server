@@ -111,6 +111,8 @@ main()
       for file_path in $( find "." -name "*.encrypted" | sed 's,\.encrypted,,g' ); do
         decrypt_file "${file_path}"
       done
+      chmod 700 "./ssh"
+      chmod 600 "./ssh/id_rsa" "./ssh/id_rsa.pub"
       ;;
 
     "ansible")

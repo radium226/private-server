@@ -2,16 +2,15 @@ sudo: required
 python: '2.7'
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install -qq python-apt
-install:
-- pip install ansible
+- sudo apt-get install -qq python-apt libffi-dev libssl-dev
+- sudo pip install ansible
 before_script:
 - "./private-server decrypt-files"
 - "./private-server render-template-files"
 - "./private-server push-files-to-github-pages"
 script:
 - "./private-server ansible -m setup"
-notifications: 
+notifications:
 email: false
 env:
   global:

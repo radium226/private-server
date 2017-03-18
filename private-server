@@ -61,6 +61,7 @@ render_template_file()
 
 run_ansible()
 {
+  ls -alrt
   ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" echo ansible -i "${ANSIBE_INVENTORY_FILE}" --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
 }
 

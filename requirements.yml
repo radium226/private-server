@@ -1,3 +1,6 @@
 ---
 - src: "https://radium226.github.io/ansible-roles/java.tar.gz"
   name: "java"
+
+- src: "https://radium226.github.io/ansible-roles/kimsufi.tar.gz"
+  name: "kimsufi"

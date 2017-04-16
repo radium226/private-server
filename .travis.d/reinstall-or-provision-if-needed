@@ -1,13 +1,19 @@
 #!/bin/bash
 
+set -e -o pipefail
+
 main()
 {
   if echo "${TRAVIS_COMMIT_MESSAGE}" | grep "#reinstall" -q; then
+    echo " ==> Reinstallling... "
     ./private-server ansible-playbook "./reinstall.yml"
+    echo "OK!"
   fi
 
   if echo "${TRAVIS_COMMIT_MESSAGE}" | grep "#provision" -q; then
+    echo " ==> Provisionning... "
     ./private-server ansible-playbook "./provision.yml"
+    echo "OK! "
   fi
 }
 

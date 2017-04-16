@@ -7,9 +7,10 @@ before_install:
 before_script:
 - "./private-server decrypt-files"
 - "./private-server render-template-files"
-- "./private-server push-files-to-github-pages"
+- "./.travis.d/make-bootstrap-archives"
+- "./private-server install-ansible-requirements"
 script:
-- "./private-server ansible all -m setup"
+- "./private-server ansible-playbook './private-server.yml'"
 notifications:
 email: false
 env:

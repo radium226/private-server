@@ -1,0 +1,5 @@
+---
+- hosts: private-server
+  become: yes
+  roles:
+  - java

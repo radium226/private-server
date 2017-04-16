@@ -62,7 +62,19 @@ render_template_file()
 run_ansible()
 {
   cat ssh/config
-  ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible -i "${ANSIBE_INVENTORY_FILE}" --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
+  ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible --inventory-file="${ANSIBE_INVENTORY_FILE}" --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
+}
+
+run_ansible_playbook()
+{
+  cat ssh/config
+  ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible-playbook --inventory-file="${ANSIBE_INVENTORY_FILE}" --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
+}
+
+run_ansible_galaxy()
+{
+  mkdir -p "./roles"
+  ANSIBLE_ROLES_PATH="./roles" ansible-galaxy -vvvv "${@}"
 }
 
 main()
@@ -111,12 +123,30 @@ main()
       for file_path in $( find "." -name "*.encrypted" | sed 's,\.encrypted,,g' ); do
         decrypt_file "${file_path}"
       done
+
+      # FIXME
       chmod 700 "./ssh"
       chmod 600 "./ssh/id_rsa" "./ssh/id_rsa.pub"
       ;;
 
     "ansible")
       run_ansible "${@}"
+      ;;
+
+    "ansible-playbook")
+      run_ansible_playbook "${@}"
+      ;;
+
+    "ansible-galaxy")
+      run_ansible_galaxy "${@}"
+      ;;
+
+    "install-ansible-requirements")
+      run_ansible_galaxy install -r "./requirements.yml"
+
+      # FIXME
+      find "./roles" -type "f" -name "mainyml" |
+        xargs -I {} /bin/bash -c 'cd "$( dirname "${0}" )" ; mv "./mainyml" "./main.yml"' '{}'
       ;;
 
   esac

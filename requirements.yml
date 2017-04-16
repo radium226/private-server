@@ -1,0 +1,3 @@
+---
+- src: "https://radium226.github.io/ansible-roles/java.tar.gz"
+  name: "java"

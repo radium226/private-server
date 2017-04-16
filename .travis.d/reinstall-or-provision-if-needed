@@ -1,0 +1,14 @@
+#!/bin/bash
+
+main()
+{
+  if echo "${TRAVIS_COMMIT_MESSAGE}" | grep "#reinstall" -q; then
+    ./private-server ansible-playbook "./reinstall.yml"
+  fi
+
+  if echo "${TRAVIS_COMMIT_MESSAGE}" | grep "#provision" -q; then
+    ./private-server ansible-playbook "./provision.yml"
+  fi
+}
+
+main "${@}"

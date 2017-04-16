@@ -10,7 +10,7 @@ before_script:
 - "./.travis.d/make-bootstrap-archives"
 - "./private-server install-ansible-requirements"
 script:
-- "./private-server ansible-playbook './private-server.yml'"
+- "./.travis.d/reinstall-or-provision-if-needed"
 notifications:
 email: false
 env:

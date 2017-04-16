@@ -61,13 +61,11 @@ render_template_file()
 
 run_ansible()
 {
-  cat ssh/config
   ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible --inventory-file="${ANSIBE_INVENTORY_FILE}" --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
 }
 
 run_ansible_playbook()
 {
-  cat ssh/config
   ANSIBLE_CONFIG="${ANSIBLE_CONFIG_FILE}" ansible-playbook --inventory-file="${ANSIBE_INVENTORY_FILE}" --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
 }
 
@@ -85,7 +83,7 @@ main()
 
     "ssh")
       fix_ssh_known_hosts
-      ssh -i "./ssh/id_rsa" "root@${PRIVATE_SERVER_HOSTNAME}" "${@}"
+      ssh -i "./ssh/id_rsa" "ansible@${PRIVATE_SERVER_HOSTNAME}" "${@}"
       ;;
 
     "generate-ssh-keys")

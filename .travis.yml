@@ -4,6 +4,7 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq "build-essential" "python-apt" "libffi-dev" "libssl-dev"
 - sudo pip install "ansible"
+- sudo pip install "ovh"
 before_script:
 - "./private-server decrypt-files"
 - "./private-server render-template-files"

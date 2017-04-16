@@ -148,6 +148,14 @@ main()
         xargs -I {} /bin/bash -c 'cd "$( dirname "${0}" )" ; mv "./mainyml" "./main.yml"' '{}'
       ;;
 
+    "trigger-provision")
+      git commit -m "Trigger #provison"
+      ;;
+
+    "trigger-reinstall")
+      git commit -m "Trigger #reinstall" --allow-empty && git push -u origin master
+      ;;
+
   esac
 }
 

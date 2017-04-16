@@ -1,0 +1,9 @@
+.encryption-password
+.vault-password
+ssh/id_rsa
+ssh/id_rsa.pub
+**/*.token
+**/*.password
+inventory.ini
+roles
+bootstrap/cloud.cfg.d/90_ansible-user.cfg

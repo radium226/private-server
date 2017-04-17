@@ -44,6 +44,8 @@ provision_cloud_init()
   declare temp_folder_path="$( mktemp -d )"
   wget "${GITHUB_PAGES}/cloud.cfg.d.tar.gz" -P "${temp_folder_path}"
   tar xf "${temp_folder_path}/cloud.cfg.d.tar.gz" -C "/etc/cloud/cloud.cfg.d"
+
+  systemctl start clout-init.service
 }
 
 MODULES_TO_PROVISION=("linux_image" "apt" "cloud_init")

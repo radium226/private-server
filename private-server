@@ -76,6 +76,11 @@ run_ansible_galaxy()
   ANSIBLE_ROLES_PATH="./roles" ansible-galaxy -vvvv "${@}"
 }
 
+run_ansible_vault()
+{
+  ansible-vault  --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "${@}"
+}
+
 main()
 {
   declare action="${1}"
@@ -84,7 +89,7 @@ main()
 
     "ssh")
       fix_ssh_known_hosts
-      ssh -i "./ssh/id_rsa" "ansible@${PRIVATE_SERVER_HOSTNAME}" "${@}"
+      ssh -i "./ssh/id_rsa" "root@${PRIVATE_SERVER_HOSTNAME}" "${@}"
       ;;
 
     "generate-ssh-keys")
@@ -154,6 +159,10 @@ main()
 
     "trigger-reinstall")
       git commit -m "Trigger #reinstall" --allow-empty && git push -u origin master
+      ;;
+
+    "ansible-vault")
+      run_ansible_vault "${@}"
       ;;
 
   esac

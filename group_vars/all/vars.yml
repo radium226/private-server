@@ -1,0 +1,3 @@
+kimsufi_application_key: "{{ vault_kimsufi_application_key }}"
+kimsufi_application_secret: "{{ vault_kimsufi_application_secret }}"
+kimsufi_consumer_key: "{{ vault_kimsufi_consumer_key }}"

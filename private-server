@@ -155,7 +155,7 @@ main()
       ;;
 
     "trigger-provision")
-      git commit -m "Trigger #provison"
+      git commit -m "Trigger #provison" --allow-empty && git push -u origin master
       ;;
 
     "provision")

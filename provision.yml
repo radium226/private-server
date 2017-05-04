@@ -1,5 +1,12 @@
 ---
+# Common roles
 - hosts: private-server
   become: yes
   roles:
-  - java
+  - common
+
+# Static site
+- hosts: private-server
+  become: yes
+  roles:
+  - static-page

@@ -1,3 +1,10 @@
 kimsufi_application_key: "{{ vault_kimsufi_application_key }}"
 kimsufi_application_secret: "{{ vault_kimsufi_application_secret }}"
 kimsufi_consumer_key: "{{ vault_kimsufi_consumer_key }}"
+
+private_server_ipv4: "5.39.79.100"
+private_server_domain: "{{ private_server_ipv4 }}.xip.io"
+
+nginx_domain: "{{ private_server_domain }}"
+nginx_default_server_enabled: True
+nginx_default_server_subdomain: "www"

@@ -52,6 +52,7 @@ decrypt_file()
 {
   declare file_path="${1}"
   openssl aes-256-cbc -k "$( encryption_password )" -in "${file_path}.encrypted" -out "${file_path}" -d
+  rm "${file_path}.encrypted"
 }
 
 render_template_file()
@@ -89,7 +90,7 @@ main()
 
     "ssh")
       fix_ssh_known_hosts
-      ssh -i "./ssh/id_rsa" "root@${PRIVATE_SERVER_HOSTNAME}" "${@}"
+      ssh -i "./ssh/id_rsa" "ansible@${PRIVATE_SERVER_HOSTNAME}" "${@}"
       ;;
 
     "generate-ssh-keys")
@@ -157,12 +158,30 @@ main()
       git commit -m "Trigger #provison"
       ;;
 
+    "provision")
+      run_ansible_playbook "./provision.yml"
+      ;;
+
     "trigger-reinstall")
       git commit -m "Trigger #reinstall" --allow-empty && git push -u origin master
       ;;
 
     "ansible-vault")
       run_ansible_vault "${@}"
+      ;;
+
+    "ansible-role")
+      declare temp_playbook_file_path="$( mktemp --tmpdir='.' --suffix='.yml' )"
+      declare ansible_hosts="${2:-private-server}"
+      declare ansible_role="${1}"
+      cat <<EOCAT >"${temp_playbook_file_path}"
+- hosts: ${ansible_hosts}
+  become: yes
+  roles:
+  - ${ansible_role}
+EOCAT
+      run_ansible_playbook "${temp_playbook_file_path}"
+      rm "${temp_playbook_file_path}"
       ;;
 
   esac

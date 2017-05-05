@@ -8,3 +8,10 @@ private_server_domain: "{{ private_server_ipv4 }}.xip.io"
 nginx_domain: "{{ private_server_domain }}"
 nginx_default_server_enabled: True
 nginx_default_server_subdomain: "www"
+
+rclone_hubic_client_id: "{{ vault_rclone_hubic_client_id }}"
+rclone_hubic_client_secret: "{{ vault_rclone_hubic_client_secret }}"
+rclone_hubic_token: "{{ vault_rclone_hubic_token }}"
+rclone_hubic_remote_name: "hubic"
+rclone_hubic_remote_container: "default"
+rclone_hubic_remote: "{{ rclone_hubic_remote_name }}:{{ rclone_hubic_remote_container }}"

@@ -172,15 +172,15 @@ main()
 
     "ansible-role")
       declare temp_playbook_file_path="$( mktemp --tmpdir='.' --suffix='.yml' )"
-      declare ansible_hosts="${2:-private-server}"
-      declare ansible_role="${1}"
+      declare ansible_role="${1}" ; shift
+      declare ansible_hosts="private-server"
       cat <<EOCAT >"${temp_playbook_file_path}"
 - hosts: ${ansible_hosts}
   become: yes
   roles:
   - ${ansible_role}
 EOCAT
-      run_ansible_playbook "${temp_playbook_file_path}"
+      run_ansible_playbook "${temp_playbook_file_path}" "${@}"
       rm "${temp_playbook_file_path}"
       ;;
 

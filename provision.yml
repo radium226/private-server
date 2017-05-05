@@ -4,6 +4,7 @@
   become: yes
   roles:
   - common
+  - rclone-hubic
 
 # Static site
 - hosts: private-server

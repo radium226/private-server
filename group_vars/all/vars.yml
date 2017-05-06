@@ -15,3 +15,7 @@ rclone_hubic_token: "{{ vault_rclone_hubic_token }}"
 rclone_hubic_remote_name: "hubic"
 rclone_hubic_remote_container: "default"
 rclone_hubic_remote: "{{ rclone_hubic_remote_name }}:{{ rclone_hubic_remote_container }}"
+
+telegram_bot_token: "{{ vault_telegram_bot_token }}"
+telegram_bot_chat_id: "{{ vault_telegram_bot_chat_id }}"
+

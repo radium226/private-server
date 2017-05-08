@@ -1,0 +1,19 @@
+- hosts: private-server
+  become: yes
+  tasks:
+  - name: create a script which will be called by sshd
+    copy:
+      content: |
+        #!/bin/bash
+        if [ "${PAM_TYPE}" != "close_session" ]; then
+          telegram-bot send-message --text "An SSH connection has been created by ${PAM_RHOST}. "
+        fi
+      dest: "/usr/local/bin/telegram-bot-sshd"
+      owner: "root"
+      mode: "u=rwx,g=rx,o="
+
+  - name: configure sshd to call the script
+    lineinfile:
+      line: "session optional pam_exec.so seteuid /usr/local/bin/telegram-bot-sshd"
+      path: "/etc/pam.d/sshd"
+      state: present

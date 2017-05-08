@@ -3,12 +3,17 @@
 - hosts: private-server
   become: yes
   roles:
-  - common
-  - rclone-hubic
-  - telegram-bot
+  - { role: "fail2ban" }
+  - { role: "ufw" }
+  - { role: "sshd" }
+  - { role: "rclone-hubic" }
+  - { role: "telegram-bot" }
+
+- include: "telegram-bot-fail2ban.yml"
+- include: "sshd-telegram-bot.yml"
 
 # Static site
 - hosts: private-server
   become: yes
   roles:
-  - static-page
+  - { role: "static-page" }

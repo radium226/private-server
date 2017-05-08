@@ -19,3 +19,5 @@ rclone_hubic_remote: "{{ rclone_hubic_remote_name }}:{{ rclone_hubic_remote_cont
 telegram_bot_token: "{{ vault_telegram_bot_token }}"
 telegram_bot_chat_id: "{{ vault_telegram_bot_chat_id }}"
 
+nginx_http_port: 80
+nginx_https_port: 443

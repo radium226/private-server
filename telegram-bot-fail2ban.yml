@@ -10,7 +10,7 @@
         declare cause="${3}"
         case "${action}" in
           "ban")
-            telegram-bot send-message --text "IP ${ip} has just been banned. "
+            telegram-bot send-message --text "IP ${ip} has just been banned because of ${cause}. "
             ;;
           "unban")
             telegram-bot send-message --text "IP ${ip} has just been unbanned. "
